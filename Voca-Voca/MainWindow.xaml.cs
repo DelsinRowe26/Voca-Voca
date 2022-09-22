@@ -34,16 +34,19 @@ namespace Voca_Voca
         private FileInfo fileInfo1 = new FileInfo("Data_Load.tmp");
 
         private SimpleMixer mMixer, mMixerRight;
-        private int SampleRate;//44100;
+        private int SampleRate;//441
         //private Equalizer equalizer;
         private WasapiOut mSoundOut, mSoundOut1;
         private WasapiCapture mSoundIn, mSoundIn1;
-        private SampleDSPPitch mDspRec;
-        private SampleDSPTurbo mDspTurbo, mDspTurbo1;
+        private SampleDSPPitch mDsp;
+        private SampleDSPTurbo mDspTurbo;
         private IWaveSource mSource;
         private ISampleSource mMp3;
         private MMDeviceCollection mOutputDevices;
         private MMDeviceCollection mInputDevices;
+
+        private int click = 0;
+        private int ImgBtnStartClick = 0, ImgBtnTurboClick = 0;
 
         string langindex;
 
@@ -104,19 +107,24 @@ namespace Voca_Voca
                     }
                 }
 
-                if (langindex == "0")
+                if (click == 0)
                 {
-                    string msg = "Подключите проводную аудио-гарнитуру к компьютеру.\nЕсли на данный момент гарнитура не подключена,\nто подключите проводную гарнитуру, и перезапустите программу для того, чтобы звук подавался в наушники.";
-                    MessageBox.Show(msg);
-                }
-                else
-                {
-                    string msg = "Connect a wired audio headset to your computer.\nIf a headset is not currently connected,\nthen connect a wired headset and restart the program so that the sound is played through the headphones.";
-                    MessageBox.Show(msg);
+                    if (langindex == "0")
+                    {
+                        string msg = "Подключите проводную аудио-гарнитуру к компьютеру.\nЕсли на данный момент гарнитура не подключена,\nто подключите проводную гарнитуру, и перезапустите программу для того, чтобы звук подавался в наушники.";
+                        MessageBox.Show(msg);
+                    }
+                    else
+                    {
+                        string msg = "Connect a wired audio headset to your computer.\nIf a headset is not currently connected,\nthen connect a wired headset and restart the program so that the sound is played through the headphones.";
+                        MessageBox.Show(msg);
+                    }
+                    click++;
                 }
 
                 TembroClass tembro = new TembroClass();
                 tembro.Tembro(SampleRate, "Wide_voice_effect.tmp");
+                
             }
             catch (Exception ex)
             {
@@ -142,7 +150,7 @@ namespace Voca_Voca
             try
             {
 
-                mMixer = new SimpleMixer(1, SampleRate) //стерео, 44,1 КГц
+                mMixer = new SimpleMixer(2, SampleRate) //стерео, 44,1 КГц
                 {
                     //Right = true,
                     //Left = true,
@@ -231,7 +239,7 @@ namespace Voca_Voca
             Environment.Exit(0);
         }
 
-        private ChannelMask SoundOut()
+        private void SoundOut()
         {
             try
             {
@@ -242,12 +250,12 @@ namespace Voca_Voca
 
 
 
-                mSoundOut.Initialize(mMixer.ToWaveSource(32).ToMono());
+                mSoundOut.Initialize(mMixer.ToWaveSource(32).ToStereo());
 
 
                 mSoundOut.Play();
                 mSoundOut.Volume = 10;
-                return ChannelMask.SpeakerFrontLeft;
+                //return ChannelMask.SpeakerFrontLeft;
             }
             catch (Exception ex)
             {
@@ -257,7 +265,6 @@ namespace Voca_Voca
                     LogClass.LogWrite(msg);
                     MessageBox.Show(msg);
                     Debug.WriteLine(msg);
-                    return ChannelMask.SpeakerFrontLeft;
                 }
                 else
                 {
@@ -265,32 +272,32 @@ namespace Voca_Voca
                     LogClass.LogWrite(msg);
                     MessageBox.Show(msg);
                     Debug.WriteLine(msg);
-                    return ChannelMask.SpeakerFrontLeft;
                 }
             }
         }
 
-        private async void StartFullDuplex()//запуск пича и громкости
+        private async void StartFullDuplex()
         {
             try
             {
                 //Запускает устройство захвата звука с задержкой 1 мс.
                 //await Task.Run(() => SoundIn());
                 SoundIn();
-
+                await Task.Run(() => Sound());
                 var source = new SoundInSource(mSoundIn) { FillWithZeros = true };
 
                 //Init DSP для смещения высоты тона
-                mDspTurbo = new SampleDSPTurbo(source.ToSampleSource()/*.AppendSource(Equalizer.Create10BandEqualizer, out mEqualizer)*/.ToMono());
+                mDsp = new SampleDSPPitch(source.ToSampleSource().ToStereo());
 
                 //SetPitchShiftValue();
 
                 //Инициальный микшер
-                Mixer();
+                //Mixer();
 
                 //Добавляем наш источник звука в микшер
-                mMixer.AddSource(mDspTurbo.ChangeSampleRate(mMixer.WaveFormat.SampleRate));
+                mMixer.AddSource(mDsp.ChangeSampleRate(mDsp.WaveFormat.SampleRate));
 
+                
                 //Запускает устройство воспроизведения звука с задержкой 1 мс.
                 await Task.Run(() => SoundOut());
 
@@ -312,19 +319,134 @@ namespace Voca_Voca
                     Debug.WriteLine(msg);
                 }
             }
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            btnStartTurbo.IsEnabled = false;
+            btnStart.IsEnabled = false;
+            cmbInput.IsEnabled = false;
+            cmbOutput.IsEnabled = false;
+            ImgBtnStartClick = 1;
+            StartFullDuplex();
+
+        }
+
+        private void btnStartTurbo_Click(object sender, RoutedEventArgs e)
+        {
+            btnStartTurbo.IsEnabled = false;
+            btnStart.IsEnabled = false;
+            cmbInput.IsEnabled = false;
+            cmbOutput.IsEnabled = false;
+            ImgBtnTurboClick = 1;
+            StartFullDuplexTurbo();
+        }
+
+        private void Voca_Voca_Activated(object sender, EventArgs e)
+        {
+            if (click == 1)
+            {
+                RoutedEventArgs f = null;
+                Voca_Voca_Loaded(sender, f);
+                click++;
+            }
+        }
+
+        private void btnStart_MouseMove(object sender, MouseEventArgs e)
+        {
+            string uri = @"Voca-Voca\button\button-play-hover.png";
+            ImgBtnStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+        }
+
+        private void btnStartTurbo_MouseMove(object sender, MouseEventArgs e)
+        {
+            string uri = @"Voca-Voca\button\button-turbo-hover.png";
+            ImgBtnTurboStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+        }
+
+        private void btnStart_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (ImgBtnStartClick == 1)
+            {
+                string uri = @"Voca-Voca\button\button-play-active.png";
+                ImgBtnStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+            }
+            else
+            {
+                string uri = @"Voca-Voca\button\button-play-inactive.png";
+                ImgBtnStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+            }
+        }
+
+        private void btnStartTurbo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (ImgBtnTurboClick == 1)
+            {
+                string uri = @"Voca-Voca\button\button-turbo-active.png";
+                ImgBtnTurboStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+            }
+            else
+            {
+                string uri = @"Voca-Voca\button\button-turbo-inactive.png";
+                ImgBtnTurboStart.ImageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
+            }
+        }
+
+        private async void StartFullDuplexTurbo()//запуск пича и громкости
+        {
+            try
+            {
+                //Запускает устройство захвата звука с задержкой 1 мс.
+                //await Task.Run(() => SoundIn());
+                SoundIn();
+                await Task.Run(() => Sound());
+                var source = new SoundInSource(mSoundIn) { FillWithZeros = true };
+
+                //Init DSP для смещения высоты тона
+                mDspTurbo = new SampleDSPTurbo(source.ToSampleSource().ToStereo());
+
+                //SetPitchShiftValue();
+
+                //Инициальный микшер
+                //Mixer();
+
+                //Добавляем наш источник звука в микшер
+                mMixer.AddSource(mDspTurbo.ChangeSampleRate(mMixer.WaveFormat.SampleRate));
+
+                //Запускает устройство воспроизведения звука с задержкой 1 мс.
+                await Task.Run(() => SoundOut());
+
+            }
+            catch (Exception ex)
+            {
+                if (langindex == "0")
+                {
+                    string msg = "Ошибка в StartFullDuplexTurbo: \r\n" + ex.Message;
+                    LogClass.LogWrite(msg);
+                    MessageBox.Show(msg);
+                    Debug.WriteLine(msg);
+                }
+                else
+                {
+                    string msg = "Error in StartFullDuplexTurbo: \r\n" + ex.Message;
+                    LogClass.LogWrite(msg);
+                    MessageBox.Show(msg);
+                    Debug.WriteLine(msg);
+                }
+            }
             //return false;
         }
 
-        private async void Sound(string file)
+        private async void Sound()
         {
             try
             {
                     Mixer();
-                    mMp3 = CodecFactory.Instance.GetCodec(@"Voca-Voca\record\Muisc.wav").ToMono().ToSampleSource();
-                    mDspRec = new SampleDSPPitch(mMp3.ToWaveSource(32).ToSampleSource());
+                    mMp3 = CodecFactory.Instance.GetCodec(@"Voca-Voca\record\Muisc.wav").ToStereo().ToSampleSource();
+                    //mDspRec = new SampleDSPPitch(mMp3.ToWaveSource(32).ToSampleSource());
                     //SampleRate = mDspRec.WaveFormat.SampleRate;
-                    mMixer.AddSource(mDspRec.ChangeSampleRate(mDspRec.WaveFormat.SampleRate).ToWaveSource(32).Loop().ToSampleSource());
-                    await Task.Run(() => SoundOut());
+                    mMixer.AddSource(mMp3.ChangeSampleRate(mMp3.WaveFormat.SampleRate));
+                    //await Task.Run(() => SoundOut());
             }
             catch (Exception ex)
             {
@@ -355,6 +477,10 @@ namespace Voca_Voca
                 langindex = FileLanguage.ReadToEnd();
                 if (langindex == "0")
                 {
+                    cmbInput.ToolTip = "Микрофон";
+                    cmbOutput.ToolTip = "Динамики";
+                    btnStart.ToolTip = "Старт";
+                    btnStartTurbo.ToolTip = "Старт Турбо";
                     lbSetMicr.Content = "Выбор микрофона";
                     lbSetSpeak.Content = "Выбор динамиков";
                 }
@@ -362,6 +488,8 @@ namespace Voca_Voca
                 {
                     lbSetMicr.Content = "Microphone selection";
                     lbSetSpeak.Content = "Speaker selection";
+                    btnStart.ToolTip = "Start";
+                    btnStartTurbo.ToolTip = "Start Turbo";
                 }
             }
             catch (Exception ex)

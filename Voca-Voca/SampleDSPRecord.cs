@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace SimpleNeurotuner
+namespace Voca_Voca
 {
     class SampleDSPRecord : ISampleSource
     {
@@ -27,53 +27,12 @@ namespace SimpleNeurotuner
                 //double closestfreq = 0;
                 float gainAmplification = (float)(Math.Pow(10.0, (GainDB) / 20.0));//получить Усиление
                 int samples = mSource.Read(buffer, offset, count);//образцы
-                float AmpSrR = 0, AmpSr, Kamp, dKamp, stK;                                                  //if (gainAmplification != 1.0f) 
+                                                 //if (gainAmplification != 1.0f) 
                                                                                                             //{
                 for (int i = offset; i < offset + samples; i++)
                 {
-                    //buffer[i] = Math.Max(Math.Min(buffer[i] * gainAmplification, 1), -1);
-                    AmpSrR += Math.Abs(buffer[i]);
+                    buffer[i] = Math.Max(Math.Min(buffer[i] * gainAmplification, 1), -1);
                 }
-
-                PitchShifter.AmpDSPR += AmpSrR;
-                PitchShifter.ItDSPR += samples;
-
-                if (PitchShifter.ItDSP >= 5000)
-                {
-                    AmpSr = PitchShifter.AmpDSP / PitchShifter.ItDSP;
-                    AmpSrR = PitchShifter.AmpDSPR / PitchShifter.ItDSPR;
-                    PitchShifter.AmpDSP = 0;
-                    PitchShifter.AmpDSPR = 0;
-                    PitchShifter.ItDSP = 0;
-                    PitchShifter.ItDSPR = 0;
-                    PitchShifter.Kampp = PitchShifter.Kamp;
-                    if (Math.Abs(AmpSrR) < 0.001f)
-                        Kamp = 0;
-                    else
-                        Kamp = AmpSr / AmpSrR;
-                    if (Kamp < 0.05)
-                        Kamp = 0;
-                    Kamp = (float)((int)((Kamp + 0.05) * 10)) / 10;
-                    PitchShifter.Kamp = Kamp;
-                }
-                if (PitchShifter.Kamp < 0)
-                {
-                    Kamp = 0;
-                    dKamp = 0;
-                }
-                else
-                {
-                    dKamp = PitchShifter.Kamp - PitchShifter.Kampp;
-                    Kamp = PitchShifter.Kampp;
-                }
-                for (int i = offset; i < offset + samples; i++)
-                {
-                    Kamp += dKamp / (float)(samples);
-                    buffer[i] = Math.Max(Math.Min(buffer[i] * Kamp, 1), -1);
-                    //if (Math.Abs(buffer[i]) < 0.001f)
-                    //    buffer[i] = 0;
-                }
-                PitchShifter.Kampp = PitchShifter.Kamp;
                 ///<summary>
                 ///int len = buffer.Length;
                 ///freq = buffer;
@@ -89,9 +48,9 @@ namespace SimpleNeurotuner
                 ///}
                 ///</summary>
 
-                /*PitchShifter.PitchShift(PitchShift, offset, count, 4096, 4, mSource.WaveFormat.SampleRate, buffer);
+                PitchShifter.PitchShift(PitchShift, offset, count, 4096, 4, mSource.WaveFormat.SampleRate, buffer);
 
-                if (PitchShift != 1.0f)
+                /*if (PitchShift != 1.0f)
                 {
                     //FrequencyUtils.FindFundamentalFrequency(buffer1, mSource.WaveFormat.SampleRate, 60, 22050);
                     PitchShifter.PitchShift(PitchShift, offset, count, 4096, 4, mSource.WaveFormat.SampleRate, buffer);

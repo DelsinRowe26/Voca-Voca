@@ -59,9 +59,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LogClass.cs" />
+    <Compile Include="PitchShifter.cs" />
     <Compile Include="PitchShifterPitch.cs" />
     <Compile Include="PitchShifterTurbo.cs" />
     <Compile Include="SampleDSPPitch.cs" />
+    <Compile Include="SampleDSPRecord.cs" />
     <Compile Include="SampleDSPTurbo.cs" />
     <Compile Include="SimpleMixer.cs" />
     <Compile Include="SoftCl.cs" />
@@ -107,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="button-play-inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="button-turbo-inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="e6a155ba-0829-4696-b1f4-f5fc92a3a6b0.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

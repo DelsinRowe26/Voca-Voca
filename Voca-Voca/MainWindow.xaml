@@ -5,30 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Voca_Voca"
         mc:Ignorable="d"
-        Title="Voca-Voca" Height="248" Width="489" Loaded="Voca_Voca_Loaded" Background="#FFE9EBEF" Closing="Voca_Voca_Closing">
+        Title="Voca-Voca" Height="273" Width="489" Loaded="Voca_Voca_Loaded" Background="#FFE9EBEF" Closing="Voca_Voca_Closing" Activated="Voca_Voca_Activated">
     <Grid>
-        <Button x:Name="btnStart" Content="Button" HorizontalAlignment="Left" Margin="144,161,0,0" VerticalAlignment="Top" Width="52" Height="52" BorderBrush="{x:Null}" Foreground="{x:Null}">
+        <Button x:Name="btnStart" Content="Button" HorizontalAlignment="Left" Margin="134,169,0,0" VerticalAlignment="Top" Width="52" Height="52" BorderBrush="{x:Null}" Foreground="{x:Null}" ToolTip="Start" Click="btnStart_Click" MouseMove="btnStart_MouseMove" MouseLeave="btnStart_MouseLeave">
             <Button.Background>
                 <ImageBrush x:Name="ImgBtnStart" ImageSource="/button-play-inactive.png"/>
             </Button.Background>
+            <Button.Template>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" Width="52" Height="52"/>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
-        <Button x:Name="btnStartTurbo" Content="Button" HorizontalAlignment="Left" Margin="292,161,0,0" VerticalAlignment="Top" Width="52" Height="52"/>
-        <ComboBox x:Name="cmbInput" HorizontalAlignment="Center" Margin="0,42,0,0" VerticalAlignment="Top" Width="200" Visibility="Visible" ToolTip="Microphone" Background="#FFE9EBEF">
+        <Button x:Name="btnStartTurbo" Content="Button" HorizontalAlignment="Left" Margin="289,169,0,0" VerticalAlignment="Top" Width="52" Height="52" BorderBrush="{x:Null}" Foreground="{x:Null}" ToolTip="TurboStart" Click="btnStartTurbo_Click" MouseMove="btnStartTurbo_MouseMove" MouseLeave="btnStartTurbo_MouseLeave">
+            <Button.Background>
+                <ImageBrush x:Name="ImgBtnTurboStart" ImageSource="/button-turbo-inactive.png"/>
+            </Button.Background>
+            <Button.Template>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" Width="52" Height="52"/>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <ComboBox x:Name="cmbInput" HorizontalAlignment="Center" Margin="0,44,0,0" VerticalAlignment="Top" Width="200" Visibility="Visible" ToolTip="Microphone" Background="#FFE9EBEF">
             <ComboBox.Style>
                 <Style>
                     <Setter Property="Control.Background" Value="Gainsboro"/>
                 </Style>
             </ComboBox.Style>
         </ComboBox>
-        <ComboBox x:Name="cmbOutput" HorizontalAlignment="Center" Margin="0,112,0,0" VerticalAlignment="Top" Width="200" ToolTip="Speaker" Background="#FFE9EBEF">
+        <ComboBox x:Name="cmbOutput" HorizontalAlignment="Center" Margin="0,126,0,0" VerticalAlignment="Top" Width="200" ToolTip="Speaker" Background="#FFE9EBEF">
             <ComboBox.Style>
                 <Style>
                     <Setter Property="Control.Background" Value="Gainsboro"/>
                 </Style>
             </ComboBox.Style>
         </ComboBox>
-        <Label x:Name="lbSetMicr" Content="Microphone selection" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,8,0,0" VerticalAlignment="Top" Width="227" FontSize="14" FontWeight="Bold"/>
-        <Label x:Name="lbSetSpeak" Content="Speaker selection" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="200" FontSize="14" FontWeight="Bold"/>
+        <Label x:Name="lbSetMicr" Content="Microphone selection" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="199" FontSize="14" FontWeight="Bold"/>
+        <Label x:Name="lbSetSpeak" Content="Speaker selection" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top" Width="200" FontSize="14" FontWeight="Bold"/>
 
     </Grid>
 </Window>

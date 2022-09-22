@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voca-Voca", "Voca-Voca\Voca-Voca.csproj", "{1A278008-5A52-4C44-8B81-FD3C1A3C6E4B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Voca-Voca v.1.0.0.0 Setup", "Voca-Voca v.1.0.0.0 Setup\Voca-Voca v.1.0.0.0 Setup.vdproj", "{024AE081-C642-4AB6-8527-90A8ACEAD2B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{1A278008-5A52-4C44-8B81-FD3C1A3C6E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A278008-5A52-4C44-8B81-FD3C1A3C6E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A278008-5A52-4C44-8B81-FD3C1A3C6E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024AE081-C642-4AB6-8527-90A8ACEAD2B1}.Debug|Any CPU.ActiveCfg = Debug
+		{024AE081-C642-4AB6-8527-90A8ACEAD2B1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
