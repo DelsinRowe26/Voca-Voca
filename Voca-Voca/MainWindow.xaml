@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Voca_Voca"
         mc:Ignorable="d"
-        Title="Voca-Voca" Height="273" Width="489" Loaded="Voca_Voca_Loaded" Background="#FFE9EBEF" Closing="Voca_Voca_Closing" Activated="Voca_Voca_Activated">
+        Title="Voca-Voca" Height="273" Width="489" Loaded="Voca_Voca_Loaded" Background="#FFE9EBEF" Closing="Voca_Voca_Closing">
     <Grid>
         <Button x:Name="btnStart" Content="Button" HorizontalAlignment="Left" Margin="134,169,0,0" VerticalAlignment="Top" Width="52" Height="52" BorderBrush="{x:Null}" Foreground="{x:Null}" ToolTip="Start" Click="btnStart_Click" MouseMove="btnStart_MouseMove" MouseLeave="btnStart_MouseLeave">
             <Button.Background>

@@ -92,7 +92,7 @@ namespace Voca_Voca
                     /* do transform */
                     ShortTimeFourierTransform(gFFTworksp, fftFrameSize, -1);
 
-                    /* this is the analysis step/это этап анализа  */
+                    /* this is the analysis step/это этап анализа */
                     for (k = 0; k < fftFrameSize2; k++)
                     {
                         /* de-interlace FFT buffer/деинтерлейсный буфер FFT  */
@@ -129,12 +129,6 @@ namespace Voca_Voca
                         //File.AppendAllText("tmp.txt", gAnaFreq[k].ToString() + "\n");
 
                     }
-
-                    /*for (k = 0; k <= fftFrameSize; k++)
-                    {
-                        gFFTworksp[2 * k] *= (float)TembroClass.kt[k];
-                        gFFTworksp[2 * k + 1] *= (float)TembroClass.kt[k];
-                    }*/
 
                     /* ***************** PROCESSING ******************* */
                     /* this does the actual pitch shifting/это делает фактическое изменение высоты тона */

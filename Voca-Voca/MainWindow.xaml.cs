@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -283,7 +286,7 @@ namespace Voca_Voca
                 //Запускает устройство захвата звука с задержкой 1 мс.
                 //await Task.Run(() => SoundIn());
                 SoundIn();
-                await Task.Run(() => Sound());
+                
                 var source = new SoundInSource(mSoundIn) { FillWithZeros = true };
 
                 //Init DSP для смещения высоты тона
@@ -321,35 +324,26 @@ namespace Voca_Voca
             }
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
             btnStartTurbo.IsEnabled = false;
             btnStart.IsEnabled = false;
             cmbInput.IsEnabled = false;
             cmbOutput.IsEnabled = false;
             ImgBtnStartClick = 1;
+            await Task.Run(() => Sound());
             StartFullDuplex();
-
         }
 
-        private void btnStartTurbo_Click(object sender, RoutedEventArgs e)
+        private async void btnStartTurbo_Click(object sender, RoutedEventArgs e)
         {
             btnStartTurbo.IsEnabled = false;
             btnStart.IsEnabled = false;
             cmbInput.IsEnabled = false;
             cmbOutput.IsEnabled = false;
             ImgBtnTurboClick = 1;
+            Sound();
             StartFullDuplexTurbo();
-        }
-
-        private void Voca_Voca_Activated(object sender, EventArgs e)
-        {
-            if (click == 1)
-            {
-                RoutedEventArgs f = null;
-                Voca_Voca_Loaded(sender, f);
-                click++;
-            }
         }
 
         private void btnStart_MouseMove(object sender, MouseEventArgs e)
@@ -396,19 +390,12 @@ namespace Voca_Voca
         {
             try
             {
-                //Запускает устройство захвата звука с задержкой 1 мс.
-                //await Task.Run(() => SoundIn());
                 SoundIn();
-                await Task.Run(() => Sound());
+                
                 var source = new SoundInSource(mSoundIn) { FillWithZeros = true };
 
                 //Init DSP для смещения высоты тона
                 mDspTurbo = new SampleDSPTurbo(source.ToSampleSource().ToStereo());
-
-                //SetPitchShiftValue();
-
-                //Инициальный микшер
-                //Mixer();
 
                 //Добавляем наш источник звука в микшер
                 mMixer.AddSource(mDspTurbo.ChangeSampleRate(mMixer.WaveFormat.SampleRate));

@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voca-Voca", "Voca-Voca\Voca
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Voca-Voca v.1.0.0.0 Setup", "Voca-Voca v.1.0.0.0 Setup\Voca-Voca v.1.0.0.0 Setup.vdproj", "{024AE081-C642-4AB6-8527-90A8ACEAD2B1}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Update Voca-Voca v.1.0.0.1 Setup", "Update Voca-Voca v.1.0.0.1 Setup\Update Voca-Voca v.1.0.0.1 Setup.vdproj", "{84C3B3AF-FF17-41F5-965F-FDBEDAA14B64}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Update Voca-Voca v.1.0.0.2 Setup", "Update Voca-Voca v.1.0.0.2 Setup\Update Voca-Voca v.1.0.0.2 Setup.vdproj", "{999DE515-D33B-4E1E-8A27-806BACC3228A}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Update Voca-Voca v.1.0.0.3 Setup", "Update Voca-Voca v.1.0.0.3 Setup\Update Voca-Voca v.1.0.0.3 Setup.vdproj", "{30E2AE5D-28F5-47FE-B5C0-A2B39E1698B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +25,12 @@ Global
 		{1A278008-5A52-4C44-8B81-FD3C1A3C6E4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{024AE081-C642-4AB6-8527-90A8ACEAD2B1}.Debug|Any CPU.ActiveCfg = Debug
 		{024AE081-C642-4AB6-8527-90A8ACEAD2B1}.Release|Any CPU.ActiveCfg = Release
+		{84C3B3AF-FF17-41F5-965F-FDBEDAA14B64}.Debug|Any CPU.ActiveCfg = Debug
+		{84C3B3AF-FF17-41F5-965F-FDBEDAA14B64}.Release|Any CPU.ActiveCfg = Release
+		{999DE515-D33B-4E1E-8A27-806BACC3228A}.Debug|Any CPU.ActiveCfg = Debug
+		{999DE515-D33B-4E1E-8A27-806BACC3228A}.Release|Any CPU.ActiveCfg = Release
+		{30E2AE5D-28F5-47FE-B5C0-A2B39E1698B1}.Debug|Any CPU.ActiveCfg = Debug
+		{30E2AE5D-28F5-47FE-B5C0-A2B39E1698B1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
