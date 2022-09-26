@@ -100,7 +100,7 @@ namespace Voca_Voca
                         imag = gFFTworksp[2 * k + 1];
 
                         /* compute magnitude and phase/вычислить амплитуду и фазу  */
-                        magn = Math.Sqrt(real * real + imag * imag);//амплитуда
+                        magn = Math.Sqrt(real * real + imag * imag) * 15;//амплитуда
                         phase = Math.Atan2(imag, real);//фаза
 
                         /* compute phase difference/вычислить разность фаз */

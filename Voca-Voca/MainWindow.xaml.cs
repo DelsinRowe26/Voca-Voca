@@ -342,7 +342,7 @@ namespace Voca_Voca
             cmbInput.IsEnabled = false;
             cmbOutput.IsEnabled = false;
             ImgBtnTurboClick = 1;
-            Sound();
+            await Task.Run(() => Sound());
             StartFullDuplexTurbo();
         }
 
